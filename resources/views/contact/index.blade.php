@@ -7,7 +7,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h2 style="color: #00008B;" >Formulaire de contact</h2>
+                <h2 style="color: #00008B;"><strong>Formulaire de contact</strong></h2>
             </div>
             <div class="card-body">
                 <form action="{{ route('contact.store') }}" method="POST">

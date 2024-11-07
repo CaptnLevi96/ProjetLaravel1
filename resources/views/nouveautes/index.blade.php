@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 style="color: #00008B;">Nouveautés des 10 derniers jours</h2>
+        <h2 style="color: #00008B;"><strong>Nouveautés des 10 derniers jours</strong></h2>
     </div>
     <div class="card-body">
         @if(count($livres) > 0)

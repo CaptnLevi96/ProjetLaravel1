@@ -5,7 +5,7 @@
 @section('content')
     <div class="row mb-4">
         <div class="col">
-            <h1 style="color: #06402b;" >Liste des livres</h1>
+            <h1 style="color: #06402b;" ><strong>Liste des livres</strong></h1>
         </div>
         <div class="col text-end">
             <a href="{{ route('livres.create') }}" class="btn btn-primary">Ajouter un Livre</a>

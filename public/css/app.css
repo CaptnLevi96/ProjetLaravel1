@@ -15,3 +15,112 @@
     margin-bottom: 1rem;
     border-radius: 4px;
 }
+
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Titre de la liste des livres */
+h1 {
+    color: #06402b;
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Bouton d'ajout d'un livre */
+.btn-primary {
+    background-color: #06402b;
+    border-color: #06402b;
+}
+
+.btn-primary:hover {
+    background-color: #045a1f;
+    border-color: #045a1f;
+}
+
+/* Bouton de recherche */
+.btn-secondary {
+    background-color: #666;
+    border-color: #666;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+    border-color: #555;
+}
+
+/* Formulaire de recherche */
+form .form-control {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+}
+
+form .row.g-3 {
+    margin-bottom: 1.5rem;
+}
+
+/* Grille des livres */
+.row-cols-1.row-cols-md-3.g-4 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+/* Carte de livre */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #06402b;
+    margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Bouton détails */
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #138496;
+}
+
+/* Espacement pour les marges du haut */
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Alignement du texte */
+.text-end {
+    text-align: end;
+}
+

@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 style="color: #00008B;">Messages reçus</h2>
+        <h2 style="color: #00008B;"><strong></strong>Messages reçus</strong></h2>
     </div>
     <div class="card-body">
         @if(count($messages) > 0)
