@@ -20,3 +20,6 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.index
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/nouveautes', [NouveautesController::class, 'index'])->name('nouveautes.index');
 Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
