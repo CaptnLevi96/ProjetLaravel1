@@ -4,6 +4,7 @@ use App\Http\Controllers\LivreController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NouveautesController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', [LivreController::class, 'index']);
 
@@ -23,3 +24,8 @@ Route::get('/messages', [MessageController::class, 'index'])->name('messages.ind
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/payment/form', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/error', [PaymentController::class, 'error'])->name('payment.error');
