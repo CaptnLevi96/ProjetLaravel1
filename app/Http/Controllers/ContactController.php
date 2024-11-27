@@ -2,48 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
-    private function getMessages()
-    {
-        $json = Storage::get('public/messages.json');
-        return json_decode($json, true)['messages'];
-    }
-
-    private function saveMessages($messages)
-    {
-        Storage::put('public/messages.json', json_encode(['messages' => $messages], JSON_PRETTY_PRINT));
-    }
-
     public function index()
     {
         $infoBibliotheque = [
-            'adresse' => '123 Rue de laRavelle',
-            'telephone' => '514-383-3824',
-            'email' => 'LaRavelle@bibliotheque.ca'
+            'adresse' => '1234 Rue de la Bibliothèque, Montréal, QC H2X 3Y4',
+            'telephone' => '514-123-4567',
+            'email' => 'contact@bibliothequelaravelle.ca'
         ];
+        
         return view('contact.index', compact('infoBibliotheque'));
     }
-
     public function store(Request $request)
     {
-        $messages = $this->getMessages();
-        
-        $nouveauMessage = [
-            'id' => count($messages) + 1,
-            'nom' => $request->nom,
-            'email' => $request->email,
-            'sujet' => $request->sujet,
-            'message' => $request->message,
-            'date' => date('Y-m-d H:i:s')
-        ];
-
-        $messages[] = $nouveauMessage;
-        $this->saveMessages($messages);
-
-        return redirect()->route('contact.index')->with('success', 'Message envoyé avec succès');
+        // Validation des données
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'sujet' => 'required|string|max:255',
+            'message' => 'required|string'
+        ]);
+    
+        // Création du message dans la base de données
+        Message::create($validated);
+    
+        // Un seul message de succès
+        return redirect()->route('contact.index')->with('success', 'Message envoyé avec succès!');
     }
 }

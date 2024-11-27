@@ -85,14 +85,6 @@
             </div>
         </nav>
 
-        <!-- Messages de succès ou d'erreur -->
-        @if(session('success'))
-            <div class="container mt-3">
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            </div>
-        @endif
 
         @if(session('error'))
             <div class="container mt-3">

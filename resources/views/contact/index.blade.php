@@ -3,6 +3,12 @@
 @section('title', 'Contactez-nous')
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="row">
     <div class="col-md-8">
         <div class="card">
@@ -14,19 +20,35 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Nom</label>
-                        <input type="text" name="nom" class="form-control" required>
+                        <input type="text" name="nom" class="form-control @error('nom') is-invalid @enderror" 
+                               value="{{ old('nom') }}" required>
+                        @error('nom')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" required>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
+                               value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Sujet</label>
-                        <input type="text" name="sujet" class="form-control" required>
+                        <input type="text" name="sujet" class="form-control @error('sujet') is-invalid @enderror" 
+                               value="{{ old('sujet') }}" required>
+                        @error('sujet')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Message</label>
-                        <textarea name="message" class="form-control" rows="5" required></textarea>
+                        <textarea name="message" class="form-control @error('message') is-invalid @enderror" 
+                                  rows="5" required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
@@ -36,7 +58,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h2 style="color: #00008B;" >Informations</h2>
+                <h2 style="color: #00008B;">Informations</h2>
             </div>
             <div class="card-body">
                 <h4 style="color: #400102;">Bibliothèque La Ravelle de Montréal</h4>
