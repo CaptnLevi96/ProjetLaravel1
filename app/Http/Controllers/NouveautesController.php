@@ -2,32 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
+use App\Models\Livre;
 use Carbon\Carbon;
 
 class NouveautesController extends Controller
 {
-    private function getLivres()
-    {
-        if (!Storage::exists('public/livres.json')) {
-            Storage::put('public/livres.json', json_encode(['livres' => []]));
-        }
-
-        $json = Storage::get('public/livres.json');
-        $data = json_decode($json, true);
-        return $data['livres'] ?? [];
-    }
-
     public function index()
     {
-        $livres = $this->getLivres();
-        
-        // Filtrer les livres des 10 derniers jours
-        $nouveautes = array_filter($livres, function($livre) {
-            $dateCreation = Carbon::parse($livre['date_creation']);
-            return $dateCreation->diffInDays(Carbon::now()) <= 10;
-        });
+        // Récupérer les livres des 10 derniers jours depuis la base de données
+        $nouveautes = Livre::where('created_at', '>=', Carbon::now()->subDays(10))
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('nouveautes.index', ['livres' => array_values($nouveautes)]);
+        return view('nouveautes.index', ['livres' => $nouveautes]);
     }
 }

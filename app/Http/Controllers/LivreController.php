@@ -19,36 +19,52 @@ class LivreController extends Controller
         return view('livres.create');
     }
 
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'titre' => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
-            'annee_publication' => 'required|integer|min:1000|max:' . (date('Y') + 1),
-            'resume' => 'required|string',
-            'prix' => 'required|numeric|min:0',
-        ]);
-
-        if ($validator->fails()) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'titre' => 'required|string|max:255',
+                'auteur' => 'required|string|max:255',
+                'annee_publication' => 'required|integer|min:1000|max:' . (date('Y') + 1),
+                'resume' => 'required|string',
+                'prix' => 'required|numeric|min:0',
+            ]);
+    
+            if ($validator->fails()) {
+                \Log::error('Validation failed: ' . json_encode($validator->errors()));
+                return redirect()
+                    ->route('livres.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+    
+            // Log des données reçues
+            \Log::info('Données reçues:', $request->all());
+    
+            $livre = Livre::create([
+                'titre' => $request->titre,
+                'auteur' => $request->auteur,
+                'annee_publication' => $request->annee_publication,
+                'resume' => $request->resume,
+                'prix' => $request->prix,
+                'date_creation' => now(),
+                'date_modification' => now()
+            ]);
+    
+            \Log::info('Livre créé avec succès:', $livre->toArray());
+    
+            return redirect()->route('livres.index')->with('success', 'Livre ajouté avec succès');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de la création du livre: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            
             return redirect()
                 ->route('livres.create')
-                ->withErrors($validator)
+                ->with('error', 'Une erreur est survenue lors de l\'ajout du livre')
                 ->withInput();
         }
-
-        Livre::create([
-            'titre' => $request->titre,
-            'auteur' => $request->auteur,
-            'annee_publication' => $request->annee_publication,
-            'resume' => $request->resume,
-            'prix' => $request->prix,
-            'date_creation' => now(),
-            'date_modification' => now()
-        ]);
-
-        return redirect()->route('livres.index')->with('success', 'Livre ajouté avec succès');
     }
-
     public function show($id)
     {
         $livre = Livre::findOrFail($id);
