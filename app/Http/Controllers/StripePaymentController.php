@@ -12,7 +12,8 @@ class StripePaymentController extends Controller
 
     public function showForm()
 {
-    return view('payment/form');
+    return view('stripe_pay');
+
 }
 
     public function pay(Request $request)
