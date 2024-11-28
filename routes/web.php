@@ -5,6 +5,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NouveautesController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StripePaymentController;
+
 
 Auth::routes();
 
@@ -31,4 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/error', [PaymentController::class, 'error'])->name('payment.error');
+    
+    
+    
+    Route::get('/stripe/form', [StripePaymentController::class, 'showForm'])->name('stripe.form');
+    Route::post('/payment/stripe/pay', [StripePaymentController::class, 'pay'])->name('stripe.pay');
+
+
 });
