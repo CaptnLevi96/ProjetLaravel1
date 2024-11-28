@@ -12,6 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -49,6 +50,13 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+
+                     <li class="nav-item">
+                        <a href="{{ route('payment.form') }}" class="nav-link">
+                            <i class="bi bi-cart"></i> Panier
+                        </a>
+                     </li>
+
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
