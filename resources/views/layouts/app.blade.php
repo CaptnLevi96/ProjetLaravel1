@@ -31,22 +31,26 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('livres.index') }}">Livres</a>
-                        </li>
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('livres.index') }}">Livres</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('nouveautes.index') }}">Nouveautés</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('contact.index') }}">Contact</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('nouveautes.index') }}">Nouveautés</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('contact.index') }}">Contact</a>
+                    </li>
+
+                    @if(auth()->check() && auth()->user()->isAdmin())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('messages.index') }}">Messages</a>
                         </li>
-   
-                    </ul>
+                    @endif
+                </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">

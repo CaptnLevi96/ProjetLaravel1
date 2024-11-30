@@ -73,10 +73,13 @@ class LivreController extends Controller
 
     public function destroy($id)
     {
-        $livre = Livre::findOrFail($id);
-        $livre->delete();
-
-        return redirect()->route('livres.index')->with('success', 'Livre supprimé avec succès');
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            $livre = Livre::findOrFail($id);
+            $livre->delete();
+            return redirect()->route('livres.index')->with('success', 'Livre supprimé avec succès');
+        }
+    
+        return redirect()->route('livres.index')->with('error', 'Accès non autorisé.');
     }
 
     public function search(Request $request)

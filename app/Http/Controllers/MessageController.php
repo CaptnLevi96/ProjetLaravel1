@@ -9,8 +9,12 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $messages = Message::orderBy('created_at', 'desc')->get();
-        return view('messages.index', ['messages' => $messages]);
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            $messages = Message::orderBy('created_at', 'desc')->get();
+            return view('messages.index', ['messages' => $messages]);
+        }
+        
+        return redirect()->route('home')->with('error', 'Accès non autorisé.');
     }
 
     public function store(Request $request)

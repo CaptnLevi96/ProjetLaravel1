@@ -39,5 +39,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stripe/form', [StripePaymentController::class, 'showForm'])->name('stripe.form');
     Route::post('/payment/stripe/pay', [StripePaymentController::class, 'pay'])->name('stripe.pay');
 
+    Route::middleware(['auth', 'admin'])->group(function () {
+        // Routes réservées aux administrateurs
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    });
+
 
 });

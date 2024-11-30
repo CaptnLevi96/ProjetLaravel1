@@ -25,11 +25,14 @@
             <h4>Résumé</h4>
             <p>{{ $livre['resume'] }}</p>
         </div>
-        <form action="{{ route('livres.destroy', $livre['id']) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Supprimer</button>
-        </form>
+        
+        @if(auth()->check() && auth()->user()->isAdmin())
+            <form action="{{ route('livres.destroy', $livre['id']) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+        @endif
     </div>
 </div>
 @endsection
