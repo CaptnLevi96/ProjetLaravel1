@@ -3,6 +3,8 @@ Lien Git: https://github.com/CaptnLevi96/ProjetLaravel1.git
 // Admin 
 
 
+PHP ARTISAN TINK
+
 $admin->email = 'admin@example.com';
 = "admin@example.com"
 
