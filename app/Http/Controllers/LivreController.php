@@ -8,6 +8,27 @@ use Illuminate\Support\Facades\Validator;
 
 class LivreController extends Controller
 {
+
+    public function edit(Livre $livre)
+{
+    return view('livres.edit', compact('livre'));
+}
+
+public function update(Request $request, Livre $livre)
+{
+    $request->validate([
+        'titre' => 'required',
+        'auteur' => 'required',
+        'annee_publication' => 'required|integer',
+        'resume' => 'required',
+        'prix' => 'required|numeric',
+    ]);
+
+    $livre->update($request->all());
+
+    return redirect()->route('livres.show', $livre)->with('success', 'Le livre a été modifié avec succès.');
+    }
+
     public function index()
     {
         $livres = Livre::orderBy('created_at', 'desc')->get();

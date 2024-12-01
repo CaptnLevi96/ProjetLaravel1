@@ -6,6 +6,7 @@ use App\Http\Controllers\NouveautesController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StripePaymentController;
+use App\Http\Middleware\AdminMiddleware;
 
 
 Auth::routes();
@@ -42,6 +43,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         // Routes réservées aux administrateurs
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    });
+
+
+    Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+        Route::get('/livres/{livre}/edit', [LivreController::class, 'edit'])->name('livres.edit');
+        Route::put('/livres/{livre}', [LivreController::class, 'update'])->name('livres.update');
     });
 
 

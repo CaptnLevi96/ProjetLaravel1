@@ -27,12 +27,15 @@
         </div>
         
         @if(auth()->check() && auth()->user()->isAdmin())
-            <form action="{{ route('livres.destroy', $livre['id']) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-            </form>
-        @endif
+    <div class="d-flex">
+        <a href="{{ route('livres.edit', $livre['id']) }}" class="btn btn-primary me-2">Modifier</a>
+        <form action="{{ route('livres.destroy', $livre['id']) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        </form>
+    </div>
+    @endif
     </div>
 </div>
 @endsection
