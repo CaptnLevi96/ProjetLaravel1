@@ -17,6 +17,12 @@ class MessageController extends Controller
         return redirect()->route('home')->with('error', 'Accès non autorisé.');
     }
 
+    public function destroy(Message $message)
+{
+    $message->delete();
+    return redirect()->route('messages.index')->with('success', 'Le message a été supprimé avec succès.');
+}
+
     public function store(Request $request)
     {
         // Validation des données
@@ -26,6 +32,8 @@ class MessageController extends Controller
             'sujet' => 'required|string|max:255',
             'message' => 'required|string'
         ]);
+
+        
 
         // Création du message dans la base de données
         Message::create($validated);

@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 style="color: #00008B;"><strong></strong>Messages reçus</strong></h2>
+        <h2 style="color: #00008B;"><strong>Messages reçus</strong></h2>
     </div>
     <div class="card-body">
         @if(count($messages) > 0)
@@ -18,6 +18,13 @@
                         </div>
                         <p class="mb-1">{{ $message['message'] }}</p>
                         <small>De: {{ $message['nom'] }} ({{ $message['email'] }})</small>
+                        @if(auth()->check() && auth()->user()->isAdmin())
+                            <form action="{{ route('messages.destroy', $message['id']) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">Supprimer</button>
+                            </form>
+                        @endif
                     </div>
                 @endforeach
             </div>

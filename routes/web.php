@@ -51,5 +51,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/livres/{livre}', [LivreController::class, 'update'])->name('livres.update');
     });
 
+    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])
+    ->name('messages.destroy')
+    ->middleware(AdminMiddleware::class);
 
 });
