@@ -36,11 +36,16 @@
     </div>      
 
     <div class="row row-cols-1 row-cols-md-3 g-4">         
-        @foreach($livres as $livre)             
+        @foreach($livres as $livre)
             <div class="col">                 
                 <div class="card h-100">                     
                     <div class="card-body">                         
-                        <h5 class="card-title">{{ $livre['titre'] }}</h5>                         
+                        <h5 class="card-title">
+                            {{ $livre['titre'] }}
+                            @if(in_array($livre->id, $recentLivres))
+                                <span class="badge bg-danger ms-2">Nouveauté</span>
+                            @endif
+                        </h5>                         
                         <h6 class="card-subtitle mb-2 text-muted">{{ $livre['auteur'] }}</h6>                         
                         <p class="card-text">                         
                             Année: {{ $livre['annee_publication'] }}<br>                         

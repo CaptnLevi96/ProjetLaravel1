@@ -31,8 +31,16 @@ public function update(Request $request, Livre $livre)
 
     public function index()
     {
+        // Récupérer les 10 derniers livres ajoutés (pour le badge)
+        $recentLivres = Livre::orderBy('created_at', 'desc')
+                            ->take(10)
+                            ->pluck('id')
+                            ->toArray();
+        
+        // Récupérer tous les livres
         $livres = Livre::orderBy('created_at', 'desc')->get();
-        return view('livres.index', compact('livres'));
+    
+        return view('livres.index', compact('livres', 'recentLivres'));
     }
 
     public function create()
@@ -111,11 +119,17 @@ public function update(Request $request, Livre $livre)
             return redirect()->route('livres.index');
         }
         
+        // Récupérer les 10 derniers livres ajoutés (pour le badge)
+        $recentLivres = Livre::orderBy('created_at', 'desc')
+                            ->take(10)
+                            ->pluck('id')
+                            ->toArray();
+        
         $livres = Livre::where('titre', 'LIKE', "%{$query}%")
                       ->orWhere('auteur', 'LIKE', "%{$query}%")
                       ->orWhere('annee_publication', 'LIKE', "%{$query}%")
                       ->get();
     
-        return view('livres.index', compact('livres'));
+        return view('livres.index', compact('livres', 'recentLivres'));
     }
 }
