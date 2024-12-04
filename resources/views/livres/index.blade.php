@@ -3,6 +3,18 @@
 @section('title', 'Liste des livres')  
 
 @section('content')     
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 3000);
+        </script>
+    @endif
+
     <div class="row mb-4">         
         <div class="col">             
             <h1 style="color: #06402b;"><strong>Liste des livres</strong></h1>         
