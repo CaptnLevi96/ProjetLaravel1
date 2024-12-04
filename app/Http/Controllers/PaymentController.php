@@ -88,6 +88,12 @@ class PaymentController extends Controller
         }
     }
 
+    public function historique()
+    {
+        $paiements = Payment::with('user')->orderBy('created_at', 'desc')->get();
+        return view('paiement.historique', compact('paiements'));
+    }
+
     public function error()
     {
         return 'Utilisateur a annulé le paiement.';

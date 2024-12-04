@@ -43,7 +43,7 @@
                            </div>
                            <div id="card-errors" class="text-danger mt-2"></div>
                        </div>
-                       <button type="submit" class="btn btn-primary">Payer</button>
+                       <button action="{{ route('payment.success') }}" type="submit" class="btn btn-primary">Payer</button>
                    </form>
                </div>
            </div>

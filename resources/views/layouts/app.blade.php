@@ -50,6 +50,14 @@
                             <a class="nav-link" href="{{ route('messages.index') }}">Messages</a>
                         </li>
                     @endif
+
+                    @if(auth()->check() && auth()->user()->isAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('paiement.historique') }}">Historique des paiements</a>
+                    </li>
+                    @endif
+
+
                 </ul>
 
                     <!-- Right Side Of Navbar -->

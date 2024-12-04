@@ -61,6 +61,11 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::get('/paiement', [App\Http\Controllers\PaymentController::class, 'index'])->name('paiement.index');
+
+
+    Route::get('/paiement/historique', [PaymentController::class, 'historique'])
+    ->name('paiement.historique')
+    ->middleware(AdminMiddleware::class);
     
 
 });
