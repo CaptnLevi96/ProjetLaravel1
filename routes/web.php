@@ -55,4 +55,12 @@ Route::middleware(['auth'])->group(function () {
     ->name('messages.destroy')
     ->middleware(AdminMiddleware::class);
 
+    Route::post('/panier/ajouter/{livre}', [App\Http\Controllers\PanierController::class, 'ajouter'])->name('panier.ajouter');
+    Route::get('/panier', [App\Http\Controllers\PanierController::class, 'index'])->name('panier.index');
+    Route::delete('/panier/{panier}', [App\Http\Controllers\PanierController::class, 'supprimer'])->name('panier.supprimer');
+
+    
+    Route::get('/paiement', [App\Http\Controllers\PaymentController::class, 'index'])->name('paiement.index');
+    
+
 });

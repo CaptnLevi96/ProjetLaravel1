@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Panier;
+
 
 class PaymentController extends Controller
 {
@@ -38,6 +41,20 @@ class PaymentController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function index()
+{
+    // Récupérer les articles du panier de l'utilisateur
+    $user = Auth::user();
+    $panier = Panier::where('user_id', $user->id)->get();
+
+    // Calculer le total du panier
+    $total = $panier->sum(function ($item) {
+        return $item->livre->prix * $item->quantite;
+    });
+
+    return view('paiement.index', compact('panier', 'total'));
+}
 
     public function success(Request $request)
     {

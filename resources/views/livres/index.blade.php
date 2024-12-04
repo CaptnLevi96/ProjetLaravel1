@@ -36,9 +36,12 @@
                         </p>                         
                         <div class="d-flex gap-2">
                             <a href="{{ route('livres.show', $livre['id']) }}" class="btn btn-info">Détails</a>
-                            <button class="btn btn-success">
-                                <i class="bi bi-cart-plus"></i> Ajouter au panier
-                            </button>
+                            <form action="{{ route('panier.ajouter', $livre['id']) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-cart-plus"></i> Ajouter au panier
+                                </button>
+                            </form>
                         </div>
                     </div>                
                 </div>         

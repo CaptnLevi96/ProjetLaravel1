@@ -56,11 +56,11 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
 
-                     <li class="nav-item">
-                        <a href="{{ route('payment.form') }}" class="nav-link">
-                            <i class="bi bi-cart"></i> Panier
-                        </a>
-                     </li>
+                        <li class="nav-item">
+    <a href="{{ route('panier.index') }}" class="nav-link">
+        <i class="bi bi-cart"></i> Panier
+    </a>
+</li>
 
                         @guest
                             @if (Route::has('login'))
