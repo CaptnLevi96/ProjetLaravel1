@@ -8,7 +8,6 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Panier;
 
-
 class PaymentController extends Controller
 {
     private $gateway;
@@ -19,42 +18,58 @@ class PaymentController extends Controller
         $this->gateway = Omnipay::create('PayPal_Rest');
         $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
         $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
-        $this->gateway->setTestMode(true); 
+        $this->gateway->setTestMode(true);
+
+        // Configuration des options cURL avec le certificat racine
+        $this->gateway->initialize([
+            'clientId' => env('PAYPAL_CLIENT_ID'),
+            'secret' => env('PAYPAL_CLIENT_SECRET'),
+            'testMode' => true,
+            'sslVerifyPeer' => false,
+            'sslVerifyHost' => false,
+        ]);
     }
 
     public function pay(Request $request)
     {
         try {
+            // Récupérer le montant total du paiement depuis la requête
+            $amount = $request->input('amount');
+
+            // Configurer les détails du paiement
             $response = $this->gateway->purchase([
-                'amount' => $request->amount,
+                'amount' => $amount,
                 'currency' => env('PAYPAL_CURRENCY'),
-                'returnUrl' => url('payment/success'),
-                'cancelUrl' => url('payment/error'),
+                'returnUrl' => secure_url('payment/success'),
+                'cancelUrl' => secure_url('payment/error'),
             ])->send();
 
+            // Rediriger vers la page de paiement PayPal
             if ($response->isRedirect()) {
                 return $response->redirect();
             } else {
-                return $response->getMessage();
+                // En cas d'erreur, afficher le message d'erreur
+                return back()->with('error', $response->getMessage());
             }
         } catch (\Exception $e) {
-            return $e->getMessage();
+            // En cas d'exception, afficher le message d'erreur
+            return back()->with('error', $e->getMessage());
         }
     }
 
     public function index()
-{
-    // Récupérer les articles du panier de l'utilisateur
-    $user = Auth::user();
-    $panier = Panier::where('user_id', $user->id)->get();
+    {
+        // Récupérer les articles du panier de l'utilisateur
+        $user = Auth::user();
+        $panier = Panier::where('user_id', $user->id)->get();
 
-    // Calculer le total du panier
-    $total = $panier->sum(function ($item) {
-        return $item->livre->prix * $item->quantite;
-    });
+        // Calculer le total du panier
+        $total = $panier->sum(function ($item) {
+            return $item->livre->prix * $item->quantite;
+        });
 
-    return view('paiement.index', compact('panier', 'total'));
-}
+        return view('paiement.index', compact('panier', 'total'));
+    }
 
     public function success(Request $request)
     {
