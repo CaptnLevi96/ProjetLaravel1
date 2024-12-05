@@ -1,40 +1,44 @@
 Lien Git: https://github.com/CaptnLevi96/ProjetLaravel1.git
 
-## RAPPORT PROJET
+## Projet de Bibliothèque en Ligne avec Laravel
 
 ## Introduction
 
-Notre projet Laravel est une application web de bibliothèque en ligne permettant aux utilisateurs de parcourir un catalogue de livres, d'ajouter des livres à leur panier et de passer des commandes. L'application comprend un système d'authentification sécurisé, une gestion des autorisations pour les administrateurs et l'intégration de passerelles de paiement tierces.
+Ce projet est une application web de bibliothèque en ligne développée avec le framework Laravel. Il permet aux utilisateurs de parcourir un catalogue de livres, d'ajouter des livres à leur panier, de passer des commandes et d'effectuer des paiements via Stripe ou PayPal. L'application comprend un système d'authentification sécurisé, une gestion des autorisations pour les administrateurs et l'intégration de passerelles de paiement tierces.
 
-## Authentification et autorisations
+## Fonctionnalités principales
 
-Nous avons implémenté un système d'authentification basé sur les fonctionnalités d'authentification intégrées de Laravel. Les utilisateurs peuvent s'inscrire, se connecter et se déconnecter de l'application. Les mots de passe des utilisateurs sont hachés de manière sécurisée avant d'être stockés dans la base de données.
+## Authentification et Autorisations
 
-En plus des utilisateurs réguliers, nous avons introduit un rôle d'utilisateur spécial appelé "administrateur". Les administrateurs bénéficient de privilèges supplémentaires leur permettant d'accéder à des fonctionnalités de gestion avancées. Ils peuvent ajouter, modifier et supprimer des livres du catalogue, ainsi que visualiser l'historique complet des paiements de tous les utilisateurs.
+Le projet utilise le système d'authentification intégré de Laravel pour gérer l'inscription, la connexion et la déconnexion des utilisateurs. Les mots de passe des utilisateurs sont hachés de manière sécurisée avant d'être stockés dans la base de données.
 
-Pour différencier les administrateurs des utilisateurs réguliers, nous avons ajouté un champ booléen "is_admin" à la table des utilisateurs dans la base de données. Lorsqu'un utilisateur se connecte, son statut d'administrateur est vérifié en utilisant la méthode "isAdmin()" définie dans le modèle User.
+En plus des utilisateurs réguliers, il existe un rôle d'utilisateur spécial appelé "administrateur". Les administrateurs ont des privilèges supplémentaires leur permettant d'accéder à des fonctionnalités de gestion avancées, telles que l'ajout, la modification et la suppression de livres du catalogue, ainsi que la visualisation de l'historique complet des paiements de tous les utilisateurs.
 
-Nous avons créé un middleware personnalisé appelé "AdminMiddleware" pour protéger les routes et les actions réservées aux administrateurs. Ce middleware vérifie si l'utilisateur actuellement authentifié a le statut d'administrateur avant d'autoriser l'accès aux ressources protégées. Si un utilisateur non autorisé tente d'accéder à une page réservée aux administrateurs, il est redirigé vers une page d'erreur appropriée.
+Pour différencier les administrateurs des utilisateurs réguliers, un champ booléen "is_admin" a été ajouté à la table "users" dans la base de données. La méthode "isAdmin()" du modèle User est utilisée pour vérifier le statut d'administrateur d'un utilisateur.
 
-## Intégration des passerelles de paiement
+Un middleware personnalisé appelé "AdminMiddleware" a été créé pour protéger les routes et les actions réservées aux administrateurs. Ce middleware vérifie si l'utilisateur actuellement authentifié a le statut d'administrateur avant d'autoriser l'accès aux ressources protégées. Les utilisateurs non autorisés sont redirigés vers une page d'erreur appropriée.
 
-Pour permettre aux utilisateurs d'effectuer des achats dans notre application, nous avons intégré deux passerelles de paiement populaires : Stripe et PayPal.
+## Gestion du Catalogue
 
-L'intégration de Stripe a été réalisée à l'aide du package officiel "laravel/cashier" qui facilite l'interaction avec l'API Stripe. Nous avons configuré les clés d'API Stripe dans notre fichier d'environnement ".env" pour assurer la sécurité et la confidentialité. Lorsqu'un utilisateur procède au paiement via Stripe, un token de paiement est généré côté client à l'aide de Stripe.js et envoyé à notre serveur. Nous utilisons ensuite ce token pour effectuer la transaction via l'API Stripe et enregistrer les détails du paiement dans notre base de données.
+Les administrateurs ont la possibilité d'ajouter de nouveaux livres au catalogue, de modifier les informations des livres existants et de supprimer des livres si nécessaire. Les utilisateurs réguliers peuvent parcourir le catalogue et voir les détails de chaque livre.
 
-Pour l'intégration de PayPal, nous avons utilisé la bibliothèque "omnipay/paypal" qui fournit une interface simplifiée pour communiquer avec l'API PayPal. Similaire à Stripe, les informations d'identification PayPal sont stockées de manière sécurisée dans notre fichier ".env". Lorsqu'un utilisateur choisit de payer avec PayPal, il est redirigé vers la page de paiement PayPal où il peut se connecter à son compte et confirmer le paiement.
+## Panier d'Achat
 
- Une fois le paiement effectué, PayPal notifie notre application du statut de la transaction via des webhooks. Nous capturons ces notifications et mettons à jour les enregistrements de paiement correspondants dans notre base de données.
-Sécurité des paiements.
+Les utilisateurs peuvent ajouter des livres à leur panier d'achat en naviguant dans le catalogue. Le panier permet aux utilisateurs de modifier les quantités des livres sélectionnés et de supprimer des livres du panier s'ils changent d'avis. Le contenu du panier est affiché avec le prix total des articles sélectionnés.
 
-La sécurité des transactions financières est d'une importance capitale dans notre application. Nous avons mis en place plusieurs mesures pour protéger les informations de paiement des utilisateurs.
+## Paiements
 
-Tout d'abord, toutes les communications avec les passerelles de paiement (Stripe et PayPal) sont effectuées via HTTPS pour garantir un transfert sécurisé des données. Les clés d'API et les informations d'identification sont stockées exclusivement dans notre fichier ".env" qui n'est pas accessible publiquement.
+Le projet intègre deux passerelles de paiement populaires : Stripe et PayPal. L'intégration de Stripe a été réalisée à l'aide du package officiel "laravel/cashier", tandis que pour PayPal, la bibliothèque "omnipay/paypal" a été utilisée.
+Les informations sensibles, telles que les clés d'API Stripe et les informations d'identification PayPal, sont stockées de manière sécurisée dans le fichier d'environnement ".env".
+Lors du processus de paiement, des jetons (tokens) sont utilisés pour représenter les transactions, garantissant qu'aucune donnée sensible n'est stockée sur le serveur de l'application.
+Les administrateurs ont accès à un historique complet des paiements effectués par tous les utilisateurs.
 
-Nous ne stockons aucune information de carte de crédit ou de compte bancaire sur nos serveurs. Au lieu de cela, nous utilisons des jetons (tokens) générés par les passerelles de paiement pour référencer les transactions. Ces jetons sont uniques à chaque transaction et ne contiennent aucune donnée sensible.
+## Sécurité
 
-Pour prévenir les attaques de type "Cross-Site Request Forgery" (CSRF), Laravel fournit une protection CSRF intégrée. Nous incluons le middleware "VerifyCsrfToken" dans nos routes de paiement pour valider les requêtes entrantes et nous assurons que les formulaires de paiement incluent le jeton CSRF nécessaire.
-Enfin, nous validons et assainissons soigneusement toutes les données entrantes côté serveur avant de les traiter ou de les stocker dans la base de données. Cela nous protège contre les injections SQL et autres attaques basées sur les entrées utilisateur malveillantes.
+La sécurité est une priorité absolue dans cette application. Toutes les communications avec les passerelles de paiement sont effectuées via HTTPS pour garantir un transfert sécurisé des données. Les clés d'API et les informations d'identification sont stockées de manière sécurisée et ne sont pas accessibles publiquement.
+La protection CSRF intégrée de Laravel est utilisée pour prévenir les attaques de type "Cross-Site Request Forgery". Les requêtes entrantes sont validées et les formulaires de paiement incluent le jeton CSRF nécessaire.
+
+Toutes les données entrantes sont soigneusement validées et assainies côté serveur avant d'être traitées ou stockées dans la base de données, afin de prévenir les injections SQL et autres attaques basées sur les entrées utilisateur malveillantes.
 
 ## Conclusion
 
@@ -43,6 +47,11 @@ En résumé, notre projet Laravel offre une plateforme robuste et sécurisée po
 L'utilisation de middlewares pour protéger les routes sensibles, la validation stricte des données et l'emploi de jetons pour les transactions financières renforcent la sécurité globale de l'application.
 
 Avec notre implémentation soignée, les utilisateurs peuvent profiter pleinement des fonctionnalités de la bibliothèque en ligne tout en ayant l'assurance que leurs informations personnelles et financières sont traitées avec le plus haut niveau de sécurité et de confidentialité.
+
+
+
+
+
 
 
 PHP ARTISAN TINKER
